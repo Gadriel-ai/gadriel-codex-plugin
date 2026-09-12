@@ -5,6 +5,21 @@ description: "Use to run a Gadriel security scan of the whole repository or a sc
 
 # Gadriel Security Scan
 
+## Finding the `gadriel` binary (Codex)
+
+The `gadriel` CLI may not be on the Codex shell PATH. Resolve it once, then use
+`"$GAD"` in place of `gadriel` for every command below:
+
+```sh
+GAD=$(command -v gadriel 2>/dev/null \
+  || { [ -n "$CLAUDE_PLUGIN_ROOT" ] && [ -x "$CLAUDE_PLUGIN_ROOT/bin/gadriel" ] && echo "$CLAUDE_PLUGIN_ROOT/bin/gadriel"; } \
+  || ls "$HOME"/.codex/plugins/cache/*/gadriel/*/bin/gadriel 2>/dev/null | head -1)
+```
+
+This uses the scanner the plugin already bundled and verified, so no global
+install is required. Only if `$GAD` is empty should you tell the user to install
+the CLI.
+
 Run Gadriel's full code-security scan and report the result.
 
 ## Workflow
@@ -12,8 +27,8 @@ Run Gadriel's full code-security scan and report the result.
 1. Resolve the target: the repo root by default, or a path the user named (a
    directory or a single file).
 2. From the repo root, run the scanner:
-   - Whole repo: `gadriel code scan`
-   - Scoped: `gadriel code scan <path>`
+   - Whole repo: `"$GAD" code scan`
+   - Scoped: `"$GAD" code scan <path>`
    (`gadriel scan …` is an accepted alias.) The first run creates `.security/`
    and switches on the edit guardrail for this repo.
 3. Read the result from `.security/findings.json` (and `.security/pillar-scores.json`).

@@ -5,6 +5,21 @@ description: "Use to security-scan only the files changed in the working tree or
 
 # Gadriel Diff Scan
 
+## Finding the `gadriel` binary (Codex)
+
+The `gadriel` CLI may not be on the Codex shell PATH. Resolve it once, then use
+`"$GAD"` in place of `gadriel` for every command below:
+
+```sh
+GAD=$(command -v gadriel 2>/dev/null \
+  || { [ -n "$CLAUDE_PLUGIN_ROOT" ] && [ -x "$CLAUDE_PLUGIN_ROOT/bin/gadriel" ] && echo "$CLAUDE_PLUGIN_ROOT/bin/gadriel"; } \
+  || ls "$HOME"/.codex/plugins/cache/*/gadriel/*/bin/gadriel 2>/dev/null | head -1)
+```
+
+This uses the scanner the plugin already bundled and verified, so no global
+install is required. Only if `$GAD` is empty should you tell the user to install
+the CLI.
+
 Scan only the changed files — the pre-PR check.
 
 ## Workflow
@@ -14,7 +29,7 @@ Scan only the changed files — the pre-PR check.
    - staged only: `git diff --name-only --cached`
    - vs a base branch: `git diff --name-only <base>...HEAD`
    Keep only files that still exist (skip deletions).
-2. Scan them. Simplest: `gadriel code scan <dir>` scoped to the changed area, or
+2. Scan them. Simplest: `"$GAD" code scan <dir>` scoped to the changed area, or
    scan the changed files/paths directly. (Gadriel's scan is path-scoped.)
 3. Report new/affected findings by severity with rule_id, file and line, and
    flag anything at or above High as a merge blocker. Offer `gadriel-fix`.

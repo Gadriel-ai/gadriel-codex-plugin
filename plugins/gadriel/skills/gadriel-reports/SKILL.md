@@ -5,13 +5,28 @@ description: "Use to generate Gadriel's compliance reports (PDF) from the latest
 
 # Gadriel Compliance Reports
 
+## Finding the `gadriel` binary (Codex)
+
+The `gadriel` CLI may not be on the Codex shell PATH. Resolve it once, then use
+`"$GAD"` in place of `gadriel` for every command below:
+
+```sh
+GAD=$(command -v gadriel 2>/dev/null \
+  || { [ -n "$CLAUDE_PLUGIN_ROOT" ] && [ -x "$CLAUDE_PLUGIN_ROOT/bin/gadriel" ] && echo "$CLAUDE_PLUGIN_ROOT/bin/gadriel"; } \
+  || ls "$HOME"/.codex/plugins/cache/*/gadriel/*/bin/gadriel 2>/dev/null | head -1)
+```
+
+This uses the scanner the plugin already bundled and verified, so no global
+install is required. Only if `$GAD` is empty should you tell the user to install
+the CLI.
+
 Render Gadriel's compliance reports from the latest scan.
 
 ## Workflow
 
 1. Ensure a scan has run (a `.security/findings.json` exists). If not, run
    `gadriel-scan` first.
-2. Run `gadriel code report --format pdf --all-pillars --fail-on render-only`.
+2. Run `"$GAD" code report --format pdf --all-pillars --fail-on render-only`.
    Reports are written to `.security/compliance/`.
 3. List the generated files with their sizes.
 
