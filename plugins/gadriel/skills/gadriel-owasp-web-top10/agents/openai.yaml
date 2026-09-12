@@ -1,0 +1,4 @@
+interface:
+  display_name: "Owasp Web Top10"
+  short_description: "OWASP Web Top 10 (A01-A10, 2021) detection patterns and language-specific remediations"
+  default_prompt: "Apply the Owasp Web Top10 security guidance to this code."

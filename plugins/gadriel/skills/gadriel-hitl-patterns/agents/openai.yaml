@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hitl Patterns"
+  short_description: "Human-in-the-loop gate patterns — autonomy boundaries, approval gates, audit trails for high-impact actions"
+  default_prompt: "Apply the Hitl Patterns security guidance to this code."

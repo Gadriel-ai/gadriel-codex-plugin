@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sbom Guidance"
+  short_description: "SBOM generation guidance — SPDX vs CycloneDX, when each is required, common gotchas (transitive deps, base-ima"
+  default_prompt: "Apply the Sbom Guidance security guidance to this code."

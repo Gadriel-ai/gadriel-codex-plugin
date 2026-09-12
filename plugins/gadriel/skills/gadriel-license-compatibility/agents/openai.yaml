@@ -1,0 +1,4 @@
+interface:
+  display_name: "License Compatibility"
+  short_description: "Open-source license compatibility matrix — copyleft propagation, viral GPL detection, license-incompatible imp"
+  default_prompt: "Apply the License Compatibility security guidance to this code."

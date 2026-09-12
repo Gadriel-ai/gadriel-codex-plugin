@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bayesian Calibration"
+  short_description: "Bayesian calibration for Gadriel verdicts — interpreting the {{bayes_prior}} prompt slot, reliability diagrams"
+  default_prompt: "Apply the Bayesian Calibration security guidance to this code."

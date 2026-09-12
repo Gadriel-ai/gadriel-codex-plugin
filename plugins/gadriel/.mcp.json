@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "gadriel": {
+      "command": "./bin/gadriel",
+      "args": ["code", "mcp"],
+      "cwd": ".",
+      "env_vars": [
+        "HOME",
+        "PATH",
+        "GADRIEL_BIN",
+        "GADRIEL_TOKEN",
+        "GADRIEL_NO_ANONYMOUS_AUTH",
+        "GADRIEL_PLUGIN_CACHE",
+        "XDG_CACHE_HOME",
+        "HTTP_PROXY",
+        "HTTPS_PROXY",
+        "NO_PROXY",
+        "SSL_CERT_FILE",
+        "REQUESTS_CA_BUNDLE",
+        "NODE_EXTRA_CA_CERTS"
+      ],
+      "startup_timeout_sec": 120
+    }
+  }
+}

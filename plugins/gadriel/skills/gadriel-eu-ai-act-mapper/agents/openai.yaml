@@ -1,0 +1,4 @@
+interface:
+  display_name: "Eu Ai Act Mapper"
+  short_description: "EU AI Act article-by-article mapping — translate Gadriel findings into the obligations they trigger (Art"
+  default_prompt: "Apply the Eu Ai Act Mapper security guidance to this code."

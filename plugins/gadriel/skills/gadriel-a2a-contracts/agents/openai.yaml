@@ -1,0 +1,4 @@
+interface:
+  display_name: "A2A Contracts"
+  short_description: "Agent-to-agent contract patterns — ack/timeout, idempotency keys, message versioning, signed envelopes"
+  default_prompt: "Apply the A2A Contracts security guidance to this code."

@@ -1,0 +1,44 @@
+{
+  "name": "gadriel",
+  "version": "1.4.0",
+  "description": "AI Security Harness for OpenAI Codex. Gadriel scans the code Codex writes as it writes it and feeds findings back so they are fixed before the turn moves on, and gives Codex a security MCP server and skills. SAST, secrets, dependencies, containers and config, including AI-specific risks (OWASP LLM Top 10).",
+  "author": {
+    "name": "Gadriel",
+    "url": "https://gadriel.ai"
+  },
+  "homepage": "https://gadriel.ai",
+  "repository": "https://github.com/Gadriel-ai/gadriel-codex-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "security",
+    "ai-security",
+    "security-harness",
+    "sast",
+    "secrets",
+    "sca",
+    "sbom",
+    "owasp",
+    "owasp-llm-top10",
+    "appsec"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks.json",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Gadriel AI Security Harness",
+    "shortDescription": "Security scanning for the code Codex writes",
+    "longDescription": "Gadriel is an AI Security Harness for Codex. Every file Codex writes is scanned the moment it is written, and a serious finding is handed straight back with the fix so it is corrected before the turn moves on. Around that guardrail, Codex gets Gadriel's security MCP tools and 17 skills covering SAST, secrets, dependencies, containers and configuration, including AI-specific risks such as prompt injection and the OWASP LLM Top 10. Scanning runs on your machine.",
+    "developerName": "Gadriel",
+    "category": "Security",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://gadriel.ai",
+    "privacyPolicyURL": "https://gadriel.ai/privacy",
+    "termsOfServiceURL": "https://gadriel.ai/terms",
+    "defaultPrompt": [
+      "Run a Gadriel security scan on this repository.",
+      "Fix the Gadriel findings in this file.",
+      "Scan this change for OWASP LLM Top 10 risks."
+    ],
+    "brandColor": "#1d5f7a"
+  }
+}

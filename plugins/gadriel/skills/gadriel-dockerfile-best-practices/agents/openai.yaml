@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dockerfile Best Practices"
+  short_description: "Container security and efficiency patterns — CIS Docker Benchmark, root user, latest tag, secret-bake, image-b"
+  default_prompt: "Apply the Dockerfile Best Practices security guidance to this code."

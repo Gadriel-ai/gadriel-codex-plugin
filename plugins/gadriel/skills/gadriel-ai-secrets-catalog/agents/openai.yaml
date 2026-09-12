@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ai Secrets Catalog"
+  short_description: "AI-native secrets catalog — API key, token, and credential patterns for every major model provider and vector-"
+  default_prompt: "Apply the Ai Secrets Catalog security guidance to this code."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ai Config Security"
+  short_description: "LangChain, CrewAI, MCP, and direct-SDK configuration security — temperature/top_p sanity, system-prompt leak p"
+  default_prompt: "Apply the Ai Config Security security guidance to this code."

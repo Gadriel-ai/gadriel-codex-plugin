@@ -1,0 +1,4 @@
+interface:
+  display_name: "Graph Attack Patterns"
+  short_description: "Multi-agent graph-attack catalog — prompt injection across hand-offs, cross-agent context smuggling, tool-chai"
+  default_prompt: "Apply the Graph Attack Patterns security guidance to this code."

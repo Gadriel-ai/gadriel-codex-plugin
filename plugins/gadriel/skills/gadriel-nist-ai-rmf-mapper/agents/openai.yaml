@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nist Ai Rmf Mapper"
+  short_description: "NIST AI Risk Management Framework (AI RMF 1"
+  default_prompt: "Apply the Nist Ai Rmf Mapper security guidance to this code."

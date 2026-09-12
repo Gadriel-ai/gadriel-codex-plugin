@@ -1,0 +1,123 @@
+#!/bin/sh
+# gadriel: launcher bundled with the Gadriel Claude Code plugin.
+#
+# Claude Code puts this directory on the Bash tool's PATH and starts the MCP
+# server through it, so every plugin component reaches the scanner the same
+# way. It runs, in order of preference:
+#
+#   1. $GADRIEL_BIN, if set
+#   2. a `gadriel` already on PATH (e.g. from `npm install -g gadriel`)
+#   3. the pinned release below, downloaded once from registry.npmjs.org,
+#      checked against the SHA-512 recorded here, and cached
+#
+# The pinned hashes are the npm registry's own `dist.integrity` values for
+# @gadriel/cli-<platform>@<version>. A download that does not match is
+# deleted, never run.
+set -eu
+
+GADRIEL_VERSION=1.4.0
+
+die() {
+  printf 'gadriel plugin: %s\n' "$*" >&2
+  exit 1
+}
+
+if [ -n "${GADRIEL_BIN:-}" ]; then
+  exec "$GADRIEL_BIN" "$@"
+fi
+
+self_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+# A `gadriel` on PATH other than this launcher (whose directory is on PATH too).
+on_path=$(
+  set -f
+  IFS=:
+  for d in $PATH; do
+    [ -n "$d" ] && [ -x "$d/gadriel" ] && [ ! -d "$d/gadriel" ] || continue
+    real=$(CDPATH= cd -- "$d" 2>/dev/null && pwd -P) || continue
+    [ "$real" = "$self_dir" ] && continue
+    printf '%s/gadriel' "$d"
+    break
+  done
+)
+if [ -n "$on_path" ]; then
+  exec "$on_path" "$@"
+fi
+
+case $(uname -s) in
+  Darwin) os=darwin ;;
+  Linux) os=linux ;;
+  *) die "no prebuilt gadriel for $(uname -s); install it (npm install -g gadriel) or set GADRIEL_BIN" ;;
+esac
+case $(uname -m) in
+  arm64 | aarch64) cpu=arm64 ;;
+  x86_64 | amd64) cpu=x64 ;;
+  *) die "no prebuilt gadriel for $(uname -m); install it (npm install -g gadriel) or set GADRIEL_BIN" ;;
+esac
+case $os-$cpu in
+  darwin-arm64) sha512=a12485e613a2b6b24ad765810aabaf52dc6f87337a7931048a93df5e42420b54c40388068f655c503024238883a89bd695dcf195d48a593b9bca88e41c5a906d ;;
+  darwin-x64) sha512=2233d9341623708ab973a4c1cf997fb822c40c82bb54050bfaa889afb5d13219b69f6fb61d1b66942e324e3c9534c1047a617b91b61478f98d6e1eb1034bcbab ;;
+  linux-x64) sha512=fcfac11e7f3b84b772b43b7dc2cfa4d040204a240a0cb615378b498be44b04588254946ba3b93edf1719dc8d67819aa14bd0ed7d5f74c42545d46131716b374f ;;
+  linux-arm64) sha512=da35dcff786a2332cacb1eb52604da7e9f37e5d1f18ae459928e5bdef318b8d9f175cc2fcbd052a48bba78554c364a018fef86e9e89dcc574ba864c98e48af55 ;;
+esac
+
+dir=${GADRIEL_PLUGIN_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/gadriel-claude-plugin}/$GADRIEL_VERSION/$os-$cpu
+bin=$dir/gadriel
+
+sha512_of() {
+  if command -v sha512sum >/dev/null 2>&1; then
+    sha512sum "$1" | cut -d' ' -f1
+  elif command -v shasum >/dev/null 2>&1; then
+    shasum -a 512 "$1" | cut -d' ' -f1
+  else
+    openssl dgst -sha512 -r "$1" | cut -d' ' -f1
+  fi
+}
+
+release() {
+  rm -rf "$tmp"
+  rmdir "$lock" 2>/dev/null || true
+}
+
+fetch() {
+  mkdir -p "$dir"
+  lock=$dir/.lock
+  tmp=$dir/.tmp.$$
+  # The MCP server and a command can both start on first use: one downloads,
+  # the others wait for it. A lock older than 10 minutes was left by a process
+  # that died mid-download.
+  tries=0
+  until mkdir "$lock" 2>/dev/null; do
+    [ -x "$bin" ] && return 0
+    if [ -n "$(find "$lock" -maxdepth 0 -mmin +10 2>/dev/null)" ]; then
+      rmdir "$lock" 2>/dev/null || true
+      continue
+    fi
+    tries=$((tries + 1))
+    [ "$tries" -lt 1200 ] || die "timed out waiting for another download to finish ($lock)"
+    sleep 0.5
+  done
+  trap release EXIT
+  trap 'exit 1' HUP INT TERM
+  if [ ! -x "$bin" ]; then
+    url=https://registry.npmjs.org/@gadriel/cli-$os-$cpu/-/cli-$os-$cpu-$GADRIEL_VERSION.tgz
+    printf 'gadriel plugin: downloading gadriel %s (%s-%s) from registry.npmjs.org\n' "$GADRIEL_VERSION" "$os" "$cpu" >&2
+    mkdir "$tmp"
+    curl -fsSL --retry 2 -o "$tmp/pkg.tgz" "$url" || die "download failed: $url"
+    got=$(sha512_of "$tmp/pkg.tgz")
+    [ "$got" = "$sha512" ] || die "checksum mismatch for $url, refusing to run it (expected sha512 $sha512, got $got)"
+    tar -xzf "$tmp/pkg.tgz" -C "$tmp" package/bin/gadriel || die "unexpected package layout in $url"
+    chmod 755 "$tmp/package/bin/gadriel"
+    mv -f "$tmp/package/bin/gadriel" "$bin"
+  fi
+  # `exec` below replaces this process, so the EXIT trap would never fire.
+  release
+  trap - EXIT HUP INT TERM
+}
+
+if [ ! -x "$bin" ]; then
+  # Hooks must never stall a turn on a download; they no-op until it exists.
+  [ "${GADRIEL_PLUGIN_NO_DOWNLOAD:-}" = 1 ] && exit 0
+  fetch
+fi
+exec "$bin" "$@"

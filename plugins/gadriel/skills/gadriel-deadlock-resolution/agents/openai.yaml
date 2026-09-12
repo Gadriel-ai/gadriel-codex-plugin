@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deadlock Resolution"
+  short_description: "Multi-agent deadlock patterns — circular waits, supervisor-loop starvation, tool-contention"
+  default_prompt: "Apply the Deadlock Resolution security guidance to this code."

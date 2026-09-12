@@ -1,0 +1,20 @@
+{
+  "name": "gadriel",
+  "interface": {
+    "displayName": "Gadriel"
+  },
+  "plugins": [
+    {
+      "name": "gadriel",
+      "source": {
+        "source": "local",
+        "path": "./plugins/gadriel"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Security"
+    }
+  ]
+}

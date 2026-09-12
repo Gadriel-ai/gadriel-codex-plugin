@@ -1,0 +1,4 @@
+interface:
+  display_name: "Api Security Patterns"
+  short_description: "REST, GraphQL, gRPC, and OpenAPI security patterns — authn, authz, rate limits, schema validation, mass assign"
+  default_prompt: "Apply the Api Security Patterns security guidance to this code."

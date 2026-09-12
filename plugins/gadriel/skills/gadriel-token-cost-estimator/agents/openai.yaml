@@ -1,0 +1,4 @@
+interface:
+  display_name: "Token Cost Estimator"
+  short_description: "Token-cost math, per-call pricing, ceiling enforcement, model-tier selection"
+  default_prompt: "Apply the Token Cost Estimator security guidance to this code."

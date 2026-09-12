@@ -1,0 +1,4 @@
+interface:
+  display_name: "Owasp Llm Top10"
+  short_description: "OWASP LLM Top 10 (2025) catalog with detection patterns and remediations"
+  default_prompt: "Apply the Owasp Llm Top10 security guidance to this code."

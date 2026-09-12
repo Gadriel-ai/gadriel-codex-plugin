@@ -1,0 +1,4 @@
+interface:
+  display_name: "Output Schema Library"
+  short_description: "JSON Schema patterns for structured LLM output — strict schemas, refusal handling, retry-on-parse-fail, common"
+  default_prompt: "Apply the Output Schema Library security guidance to this code."
