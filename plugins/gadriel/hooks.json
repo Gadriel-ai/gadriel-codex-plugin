@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh ./scripts/gadriel-hook.sh pre-edit",
+            "command": "sh \"$CLAUDE_PLUGIN_ROOT/scripts/gadriel-hook.sh\" pre-edit",
             "timeout": 10
           }
         ]
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh ./scripts/gadriel-hook.sh post-edit",
+            "command": "sh \"$CLAUDE_PLUGIN_ROOT/scripts/gadriel-hook.sh\" post-edit",
             "timeout": 60
           }
         ]
