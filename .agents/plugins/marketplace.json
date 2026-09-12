@@ -1,7 +1,7 @@
 {
-  "name": "gadriel",
+  "name": "security-harness",
   "interface": {
-    "displayName": "Gadriel"
+    "displayName": "Gadriel Security Harness"
   },
   "plugins": [
     {
