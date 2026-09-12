@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gadriel Reports"
+  short_description: "Compliance PDFs from the latest scan"
+  default_prompt: "Generate the Gadriel compliance reports for this repository."

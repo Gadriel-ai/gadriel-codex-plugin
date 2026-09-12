@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gadriel Fix"
+  short_description: "Remediate one finding by ID and verify"
+  default_prompt: "Fix the Gadriel finding CODE-W1-L3-017 and confirm it is resolved."

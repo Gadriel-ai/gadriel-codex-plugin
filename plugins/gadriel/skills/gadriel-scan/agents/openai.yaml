@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gadriel Scan"
+  short_description: "Full security scan of the repo or a path"
+  default_prompt: "Run a Gadriel security scan on this repository and summarize the findings."

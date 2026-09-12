@@ -19,15 +19,17 @@ OWASP LLM Top 10, with 3,000+ rules. Scanning runs on your machine.
 codex plugin marketplace add Gadriel-ai/gadriel-codex-plugin
 ```
 
-Then enable `gadriel` and, in a repository:
+Then install and enable it:
 
 ```
-/gadriel-scan
+codex plugin add gadriel@security-harness
 ```
 
-The first scan creates `.security/` in the repo and switches the guardrail on
-there — the plugin is enabled globally but only acts in repositories you have
-scanned, and never writes into one you have not.
+To use it, ask Codex in natural language — e.g. *"Run a Gadriel security scan on
+this repo"* — which activates the `gadriel-scan` skill. The first scan creates
+`.security/` in the repo and switches the guardrail on there; the plugin is
+enabled globally but only acts in repositories you have scanned, and never
+writes into one you have not.
 
 ## What you get
 
@@ -36,11 +38,15 @@ scanned, and never writes into one you have not.
   with the remediation, so it fixes the code before continuing.
 - **MCP server** `gadriel` (`.mcp.json`): `validate_file`, `validate_buffer`,
   `findings_for_path`, `fix_finding`, `dismiss_false_positive`, and more.
-- **17 skills** loaded when relevant: OWASP Web Top 10, OWASP LLM Top 10, AI
-  secrets catalog, AI config security, API security patterns, Dockerfile best
-  practices, SBOM guidance, license compatibility, EU AI Act and NIST AI RMF
-  mappers, and others.
-- **Commands**: `/gadriel-scan`, `/gadriel-fix`, `/gadriel-status`.
+- **Action skills** — invoked by asking in natural language (Codex has no
+  plugin slash commands; skills are the mechanism, and `/skills` lists them):
+  `gadriel-scan` (full scan), `gadriel-diff-scan` (changed files only, pre-PR),
+  `gadriel-fix` (remediate one finding), `gadriel-reports` (compliance PDFs),
+  `gadriel-status` (open findings).
+- **17 guidance skills** loaded when relevant: OWASP Web Top 10, OWASP LLM Top
+  10, AI secrets catalog, AI config security, API security patterns, Dockerfile
+  best practices, SBOM guidance, license compatibility, EU AI Act and NIST AI
+  RMF mappers, and others.
 
 ## How the scanner gets onto your machine
 

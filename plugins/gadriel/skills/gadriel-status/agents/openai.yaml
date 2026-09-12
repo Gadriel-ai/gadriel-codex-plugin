@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gadriel Status"
+  short_description: "Open findings from the last scan"
+  default_prompt: "Show the open Gadriel findings for this repository."

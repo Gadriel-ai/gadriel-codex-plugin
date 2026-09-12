@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gadriel Diff Scan"
+  short_description: "Scan only changed files (pre-PR)"
+  default_prompt: "Run a Gadriel scan on my changed files before I open a PR."
