@@ -66,11 +66,31 @@ export RUST_LOG=${RUST_LOG:-error}
 cd "$project" || exit 0
 
 if [ "$phase" = post-edit ]; then
-  printf '%s' "$payload" | "$launcher" hooks adapt --platform codex --event "$event"
-  # 2 is the guardrail's "fix this first"; anything else is not the agent's problem.
-  [ $? -eq 2 ] && exit 2
+  # Run the guardrail. gadriel prints the finding to stderr and exits 2 when a
+  # file has a finding at/above the threshold (Claude-style). Codex's
+  # PostToolUse contract instead reads a decision from STDOUT as JSON, so
+  # translate: on exit 2, emit `{"decision":"block","reason":...}` so the
+  # finding reaches the model and it fixes the code before continuing.
+  set +e
+  reason=$(printf '%s' "$payload" | "$launcher" hooks adapt --platform codex --event "$event" 2>&1)
+  rc=$?
+  set -e
+  if [ "$rc" -eq 2 ]; then
+    # Produce a JSON-safe single-line reason: flatten newlines/tabs/CR to
+    # spaces, strip any remaining control bytes (0x00-0x1f, incl. ANSI ESC),
+    # then escape backslash and double-quote. `tr` behaves the same on macOS
+    # (BSD) and Linux, unlike `\t`/`\x` in BSD sed/awk.
+    esc=$(printf '%s' "$reason" \
+      | tr '\t\r\n' '   ' \
+      | tr -d '\000-\037' \
+      | sed 's/\\/\\\\/g; s/"/\\"/g')
+    printf '{"decision":"block","reason":"%s","hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"Gadriel found a security issue in the file just written. Fix it before continuing."}}\n' "$esc"
+    # Also honor the documented exit-2 path, belt-and-suspenders.
+    exit 2
+  fi
   exit 0
 fi
 
+# pre-edit is advisory only: never block, stay silent.
 printf '%s' "$payload" | "$launcher" hooks adapt --platform codex --event "$event" >/dev/null 2>&1 || true
 exit 0
