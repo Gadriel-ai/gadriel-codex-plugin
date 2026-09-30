@@ -52,7 +52,7 @@ writes into one you have not.
 
 The plugin is small; the scanner is the `gadriel` binary. `bin/gadriel` uses,
 in order: `$GADRIEL_BIN` if set; a `gadriel` already on `PATH`; otherwise the
-pinned release (**1.4.0**), downloaded once from `registry.npmjs.org` and
+pinned release (**1.5.0**), downloaded once from `registry.npmjs.org` and
 verified against the SHA-512 pinned in the launcher before it is cached or run.
 Supported: macOS and Linux (glibc), x64 and arm64. Needs `curl` and `tar` for
 the first download.
