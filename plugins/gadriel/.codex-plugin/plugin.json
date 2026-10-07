@@ -1,6 +1,6 @@
 {
   "name": "gadriel",
-  "version": "1.5.0",
+  "version": "1.7.0",
   "description": "AI Security Harness for OpenAI Codex. Gadriel scans the code Codex writes as it writes it and feeds findings back so they are fixed before the turn moves on, and gives Codex a security MCP server and skills. SAST, secrets, dependencies, containers and config, including AI-specific risks (OWASP LLM Top 10).",
   "author": {
     "name": "Gadriel",

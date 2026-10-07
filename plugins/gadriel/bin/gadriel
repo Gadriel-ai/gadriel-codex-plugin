@@ -15,7 +15,7 @@
 # deleted, never run.
 set -eu
 
-GADRIEL_VERSION=1.5.0
+GADRIEL_VERSION=1.7.0
 
 die() {
   printf 'gadriel plugin: %s\n' "$*" >&2
@@ -55,10 +55,10 @@ case $(uname -m) in
   *) die "no prebuilt gadriel for $(uname -m); install it (npm install -g gadriel) or set GADRIEL_BIN" ;;
 esac
 case $os-$cpu in
-  darwin-arm64) sha512=d7ac607405a376b29827ed4f2015814d7df75dcf099214fca47938001345f37a2bb4b248a36f37ac587ec443df4bcc2d0ac064aa0c9497ea4edf8c8684bfaf5c ;;
-  darwin-x64) sha512=cb042c532a904f5b7ae0b2cfaa9c70fc21aac634df96b86decc74c9cf780f9093c251f7abeb8d8d3c533e8acd2c48d4636f04f1724cc63e34b376f6c5c2ee16a ;;
-  linux-x64) sha512=6e79a3af864e500ed6369a228adcf247e03920cf3a82ae4c5c275a5f0d113b8f69ebff822f2e8d4556e795e2c9affed406467674e7735ba25ee9f6e7ad34eea2 ;;
-  linux-arm64) sha512=7e943824633ec556bd58f135de6205786431d9e965cf982c8b5a151530343b4eded4f542365ee626d90ef541b59abddf846e82caa014c51003bc385cafcdda20 ;;
+  darwin-arm64) sha512=a24831b4c1b81b6bc4c8fb57d6ffc8d40e96542a75a73ee662ec37f0d3ea6ff42fe46b4ae95e19964d2fae9735c9fcabb260f131a7118eb8fa132ea1f3884c6d ;;
+  darwin-x64) sha512=0af357f1f1eaceb7599cbd54bfe78324913ece8febf4a53254b67d353dcc859a25130890ce9c59b069e09b687497e365d384f032c1f131a450cbeeb886b58c3e ;;
+  linux-x64) sha512=b93c363876da282fd71942647f5c19b2f1a38541d359fff0b3f79e79267e3ff812edc1ff7fef31b33e86e8fe3958ed7fa18124c583bd70d84844c6494ba58f38 ;;
+  linux-arm64) sha512=ce54f666c46ec1761765ca3be51759daf11eaa4a84e6905bc66f1da2ad548b6017a96e3eaf714641b6eaf3564e183521efa79a381df2e7147a12e32adf82a9d1 ;;
 esac
 
 dir=${GADRIEL_PLUGIN_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/gadriel-claude-plugin}/$GADRIEL_VERSION/$os-$cpu
